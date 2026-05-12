@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketBase Admin Console</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <div id="auth-overlay" class="overlay">
+        <div class="glass-card auth-container">
+            <div class="logo">
+                <i data-lucide="database" class="logo-icon"></i>
+                <h2>PB Admin</h2>
+            </div>
+            <p class="subtitle">Authenticate to access backend</p>
+            <div id="auth-error" class="error-msg hidden"></div>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label>Admin Email</label>
+                    <input type="email" id="auth-email" required placeholder="admin@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="auth-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary">Connect</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="app-container" class="hidden">
+        <nav class="sidebar glass-panel">
+            <div class="logo">
+                <i data-lucide="database" class="logo-icon"></i>
+                <h2>PB Admin</h2>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-item active" data-target="dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+                <button class="nav-item" data-target="collections"><i data-lucide="layers"></i> Collections</button>
+                <button class="nav-item" data-target="superusers"><i data-lucide="shield"></i> Superusers</button>
+                <button class="nav-item" data-target="users"><i data-lucide="users"></i> Users</button>
+            </div>
+            <div class="nav-footer">
+                <div class="user-info">
+                    <div class="avatar"><i data-lucide="user"></i></div>
+                    <div class="meta">
+                        <span id="current-admin-email" class="email"></span>
+                        <span class="role">Superuser</span>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn-icon"><i data-lucide="log-out"></i></button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span> Connected to PB
+                </div>
+            </header>
+
+            <div id="dashboard" class="page-section active">
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon"><i data-lucide="layers"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Collections</h3>
+                            <p id="stat-collections">--</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon"><i data-lucide="users"></i></div>
+                        <div class="stat-info">
+                            <h3>Registered Users</h3>
+                            <p id="stat-users">--</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon"><i data-lucide="shield"></i></div>
+                        <div class="stat-info">
+                            <h3>Superusers</h3>
+                            <p id="stat-superusers">--</p>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="section-heading">System Overview</h2>
+                <div class="glass-card content-card" id="system-overview-card">
+                    <!-- System Info -->
+                </div>
+            </div>
+
+            <div id="collections" class="page-section hidden">
+                <div class="glass-card list-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>System</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="collections-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="superusers" class="page-section hidden">
+                <div class="glass-card list-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>ID</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody id="superusers-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="users" class="page-section hidden">
+                <div class="glass-card list-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Verified</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-list"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="collection-records" class="page-section hidden">
+                <button class="btn-secondary" id="back-to-collections" style="margin-bottom: 20px;"><i data-lucide="arrow-left"></i> Back to Collections</button>
+                <h2 class="section-heading" id="records-title">Records</h2>
+                <div class="glass-card list-card" style="overflow-x: auto;">
+                    <table class="data-table" id="records-table">
+                        <thead id="records-thead"></thead>
+                        <tbody id="records-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="app.js"></script>
+</body>
+</html>
